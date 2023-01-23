@@ -1,8 +1,8 @@
 import telebot
 from telebot import types
 
-#тег бота: @TPSamsaBot
-bot = telebot.TeleBot('5812976483:AAHVDkmkNjTv1XSLlUI7z5irrs87IbxTqxM') #token
+#тег бота: @UniitShodunBot
+bot = telebot.TeleBot('5877928916:AAHWzT4YLy9UNaOCQOtp1dTRH-7GK3wIneM') #token
 
 """
 Бот в Telegram для парсинга инфы с shodan и поиска эксплойтов на exploit-db
