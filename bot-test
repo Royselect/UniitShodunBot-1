@@ -1,0 +1,21 @@
+import telebot
+from telebot import types
+
+#тег бота: @TPSamsaBot
+bot = telebot.TeleBot('5812976483:AAHVDkmkNjTv1XSLlUI7z5irrs87IbxTqxM') #token
+
+"""
+Бот в Telegram для парсинга инфы с shodan и поиска эксплойтов на exploit-db
+> План:
+1. авторизация на shodun
+2. парсинг shodun
+3. отправка инфы юзеру
+4. вход на exploit-db
+5. поиск эксплойтов
+6. отправка инфы юзеру
+"""
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.from_user.id, "hello")
+
