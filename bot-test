@@ -7,8 +7,8 @@ bot = telebot.TeleBot('5877928916:AAHWzT4YLy9UNaOCQOtp1dTRH-7GK3wIneM') #token
 """
 Бот в Telegram для парсинга инфы с shodan и поиска эксплойтов на exploit-db
 > План:
-1. авторизация на shodun
-2. парсинг shodun
+1. авторизация на shodan
+2. парсинг shodan
 3. отправка инфы юзеру
 4. вход на exploit-db
 5. поиск эксплойтов
@@ -19,3 +19,9 @@ bot = telebot.TeleBot('5877928916:AAHWzT4YLy9UNaOCQOtp1dTRH-7GK3wIneM') #token
 def start(message):
     bot.send_message(message.from_user.id, "hello")
 
+@bot.message_handler(content_types=["text"])
+def repeat_all_messages(message): # Название функции не играет никакой роли
+    bot.send_message(message.chat.id, message.text)
+    
+if __name__ == '__main__':
+    bot.infinity_polling()
