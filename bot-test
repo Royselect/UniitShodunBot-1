@@ -15,11 +15,21 @@ chat_id = '-858519698'
 5. поиск эксплойтов
 6. отправка инфы юзеру
 """
+from shodan import Shodan
+api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
-@bot.message_handler(commands=['start']) # реакция на /start
+@bot.message_handler(commands='find') # реакция на /start
 def start(message):
-    bot.send_message(chat_id, "hello1")
-    # bot.send_message(message.from_user.id, "hello1")
+    #mesIp = message['text']
+    #mesIp = mesIp[7:]
+    request = api.host('193.138.89.71')
+    #print(request)
+    mes = ''
+    for obj in request['ports'] + request['domains']:
+        mes += str(obj) + ', '
+    mes = mes[0:-2]
+    bot.send_message(chat_id, mes )
+
 
 # exploit-db    
 import atoma, requests
