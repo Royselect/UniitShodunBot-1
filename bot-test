@@ -21,7 +21,7 @@ def start(message):
     bot.send_message(chat_id, "hello1")
     # bot.send_message(message.from_user.id, "hello1")
 
-# exploit-db    
+# exploit-db    Pavel and Aleksey
 import atoma, requests
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
@@ -48,7 +48,6 @@ def start(message):
                                             + "\nTitle: " + feed.items[0].title
                                             + "\nDescription: " + feed.items[0].description
                                             + "\nLink: " + feed.items[0].link)
-
 
 
 if __name__ == '__main__':
