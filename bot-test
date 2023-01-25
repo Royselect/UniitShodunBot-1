@@ -53,12 +53,11 @@ for post in feed.items:
 
 @bot.message_handler(commands=['exploit'])
 def start(message):
-    bot.send_message(chat_id, "Published Date: " + date2
-                                            + "\nTitle: " + post.description
-                                            + "\nDescription: " + post.title
-                                            + "\nLink: " + post.link)
-
-
+    date3 = feed.items[0].pub_date.strftime('%d-%m-%Y')
+    bot.send_message(chat_id, "Published Date: " + date3
+                                            + "\nTitle: " + feed.items[0].title
+                                            + "\nDescription: " + feed.items[0].description
+                                            + "\nLink: " + feed.items[0].link)
 
 
 if __name__ == '__main__':
