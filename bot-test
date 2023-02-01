@@ -24,37 +24,53 @@ chat_id = '-858519698'
 """
 
 from shodan import Shodan
+import socket
+from pathlib import Path
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
-@bot.message_handler(commands='find') # реакция на /start
+
+# работа со списком
+file = open("ips.txt")
+ips = list([w for w in Path('ips.txt').read_text(encoding="utf-8").replace("\n", " ").split()])
+#print(ips)
+
+l = ''
+i = 0
+for ip in ips:
+    l += str(i) + '. ' + ip +', ' + socket.gethostbyname(ip) + '\n'
+    i = i + 1
+
+@bot.message_handler(commands=['list'])
 def start(message):
-    #mesIp = message['text']
-    #mesIp = mesIp[7:]
-    request = api.host('193.138.89.71')
-    #print(request)
+    bot.send_message(chat_id, l)
+    #приём числа
+
+
+
+
+@bot.message_handler(content_types=['text'])
+def handle_text(message):
+    if ips(message.text):
+        ip = socket.gethostbyname(ips[message.text]) # адрес из листа
+        request = api.host(ip)
+        mes = ''
+        for obj in request['ports'] + request['domains']:
+            mes += str(obj) + ', '
+        mes = mes[0:-2]
+        bot.send_message(chat_id, mes )
+    else:
+        bot.send_message(chat_id, "Значение не найдено")
+
+
+@bot.message_handler(commands='find') # реакция на 
+def start(message):
+    ip = socket.gethostbyname(ips[1]) # адрес из листа
+    request = api.host(ip)
     mes = ''
     for obj in request['ports'] + request['domains']:
         mes += str(obj) + ', '
     mes = mes[0:-2]
     bot.send_message(chat_id, mes )
-
-
-# работа со списком
-ipDict = {'1': '000', '2': '001', '3': '010'}
-
-@bot.message_handler(commands=['list'])
-def start(message):
-    bot.send_message(chat_id, "1. " + ipDict[1]
-                            + "\n2. " + ipDict[2]
-                            + "\n3. " + ipDict[3])
-
-@bot.message_handler(content_types=['text'])
-def handle_text(message):
-    if message.text in ipDict:
-        bot.send_message(chat_id, ipDict[message.text])
-    else:
-        bot.send_message(chat_id, "Значение не найдено")
-
 
 # exploit-db    Pavel and Aleksey
 import atoma, requests
