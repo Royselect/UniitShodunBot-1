@@ -15,8 +15,6 @@ chat_id = '-858519698'
 5. поиск эксплойтов
 6. отправка инфы юзеру
 """
-from shodan import Shodan
-api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
 """
 1. shodan
@@ -28,7 +26,6 @@ api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 from shodan import Shodan
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
-@bot.message_handler(commands='find') # реакция на /start
 @bot.message_handler(commands='find') # реакция на /start
 def start(message):
     #mesIp = message['text']
