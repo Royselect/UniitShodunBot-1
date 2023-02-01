@@ -50,27 +50,32 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    if ips(message.text):
-        ip = socket.gethostbyname(ips[message.text]) # адрес из листа
-        request = api.host(ip)
-        mes = ''
-        for obj in request['ports'] + request['domains']:
-            mes += str(obj) + ', '
-        mes = mes[0:-2]
-        bot.send_message(chat_id, mes )
-    else:
-        bot.send_message(chat_id, "Значение не найдено")
+        if message.text.isdigit():
+            m = 0
+            m = int(message.text)
+            if ((m >= 0 )& (m <= len(ips))):
+                ip = socket.gethostbyname(ips[m]) # адрес из листа
+                request = api.host(ip)
+                mes = ''
+                for obj in request['ports'] + request['domains']:
+                    mes += str(obj) + ', '
+                mes = mes[0:-2]
+                bot.send_message(chat_id, mes )
+            else:
+                bot.send_message(chat_id, "Значение нет")
+        else:
+            bot.send_message(chat_id, "Значение не то")
 
 
-@bot.message_handler(commands='find') # реакция на 
-def start(message):
-    ip = socket.gethostbyname(ips[1]) # адрес из листа
-    request = api.host(ip)
-    mes = ''
-    for obj in request['ports'] + request['domains']:
-        mes += str(obj) + ', '
-    mes = mes[0:-2]
-    bot.send_message(chat_id, mes )
+# @bot.message_handler(commands='find') # реакция на 
+# def start(message):
+#     ip = socket.gethostbyname(ips[1]) # адрес из листа
+#     request = api.host(ip)
+#     mes = ''
+#     for obj in request['ports'] + request['domains']:
+#         mes += str(obj) + ', '
+#     mes = mes[0:-2]
+#     bot.send_message(chat_id, mes )
 
 # exploit-db    Pavel and Aleksey
 import atoma, requests
