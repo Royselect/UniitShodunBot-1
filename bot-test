@@ -57,12 +57,12 @@ def start(message):
 
 
 
-@bot.message_handler(content_types=['text'])
-def handle_text(message):
-    if message.text in ipDict:
-        bot.send_message(chat_id, ipDict[message.text])
-    else:
-        bot.send_message(chat_id, "Значение не найдено")
+# @bot.message_handler(content_types=['text'])
+# def handle_text(message):
+#     if message.text in ipDict:
+#         bot.send_message(chat_id, ipDict[message.text])
+#     else:
+#         bot.send_message(chat_id, "Значение не найдено")
 
 
 # exploit-db    Pavel and Aleksey
