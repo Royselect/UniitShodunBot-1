@@ -16,11 +16,27 @@ chat_id = '-858519698'
 6. отправка инфы юзеру
 """
 
-@bot.message_handler(commands=['start']) # реакция на /start
-def start(message):
-    bot.send_message(chat_id, "hello1")
-    # bot.send_message(message.from_user.id, "hello1")
+"""
+1. shodan
+2. abuseIPDB
+3. exploit-db
+4. git
+"""
 
+from shodan import Shodan
+api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
+
+@bot.message_handler(commands='find') # реакция на /start
+def start(message):
+    #mesIp = message['text']
+    #mesIp = mesIp[7:]
+    request = api.host('193.138.89.71')
+    #print(request)
+    mes = ''
+    for obj in request['ports'] + request['domains']:
+        mes += str(obj) + ', '
+    mes = mes[0:-2]
+    bot.send_message(chat_id, mes )
 
 
 # работа со списком
@@ -40,8 +56,7 @@ def handle_text(message):
         bot.send_message(chat_id, "Значение не найдено")
 
 
-
-# exploit-db    
+# exploit-db    Pavel and Aleksey
 import atoma, requests
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
@@ -68,7 +83,6 @@ def start(message):
                                             + "\nTitle: " + feed.items[0].title
                                             + "\nDescription: " + feed.items[0].description
                                             + "\nLink: " + feed.items[0].link)
-
 
 
 if __name__ == '__main__':
