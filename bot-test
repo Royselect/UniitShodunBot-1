@@ -28,12 +28,24 @@ import socket
 from pathlib import Path
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
+
+# работа со списком
 file = open("ips.txt")
 ips = [w for w in Path('ips.txt').read_text(encoding="utf-8").replace("\n", " ").split()]
-print(ips)
+#print(ips)
 
+l = ''
+i = 0
+for ip in ips:
+    l += i + '. ' + ip +', ' + socket.gethostbyname(ip)
+    i = i + 1
 
-@bot.message_handler(commands='find') # реакция на /start
+@bot.message_handler(commands=['list'])
+def start(message):
+    bot.send_message(chat_id, l)
+    #приём числа
+
+@bot.message_handler(commands='find') # реакция на 
 def start(message):
     ip = socket.gethostbyname(ips[1]) # адрес из листа
     request = api.host(ip)
@@ -44,14 +56,6 @@ def start(message):
     bot.send_message(chat_id, mes )
 
 
-# работа со списком
-ipDict = {'1': '000', '2': '001', '3': '010'}
-
-@bot.message_handler(commands=['list'])
-def start(message):
-    bot.send_message(chat_id, "1. " + ipDict[1]
-                            + "\n2. " + ipDict[2]
-                            + "\n3. " + ipDict[3])
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
