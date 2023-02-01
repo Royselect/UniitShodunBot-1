@@ -15,6 +15,8 @@ chat_id = '-858519698'
 5. поиск эксплойтов
 6. отправка инфы юзеру
 """
+from shodan import Shodan
+api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
 """
 1. shodan
@@ -26,6 +28,7 @@ chat_id = '-858519698'
 from shodan import Shodan
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
+@bot.message_handler(commands='find') # реакция на /start
 @bot.message_handler(commands='find') # реакция на /start
 def start(message):
     #mesIp = message['text']
@@ -39,7 +42,7 @@ def start(message):
     bot.send_message(chat_id, mes )
 
 
-# exploit-db    
+# exploit-db    Pavel and Aleksey
 import atoma, requests
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
