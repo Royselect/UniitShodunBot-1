@@ -21,6 +21,26 @@ def start(message):
     bot.send_message(chat_id, "hello1")
     # bot.send_message(message.from_user.id, "hello1")
 
+
+
+# работа со списком
+ipDict = {'1': '000', '2': '001', '3': '010'}
+
+@bot.message_handler(commands=['list'])
+def start(message):
+    bot.send_message(chat_id, "1. " + ipDict[1]
+                            + "\n2. " + ipDict[2]
+                            + "\n3. " + ipDict[3])
+
+@bot.message_handler(content_types=['text'])
+def handle_text(message):
+    if message.text in ipDict:
+        bot.send_message(chat_id, ipDict[message.text])
+    else:
+        bot.send_message(chat_id, "Значение не найдено")
+
+
+
 # exploit-db    
 import atoma, requests
 feed_name = "Exploit-DB.com RSS Feed"
