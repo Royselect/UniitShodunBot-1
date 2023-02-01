@@ -24,14 +24,19 @@ chat_id = '-858519698'
 """
 
 from shodan import Shodan
+import socket
+from pathlib import Path
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
+
+file = open("ips.txt")
+ips = [w for w in Path('ips.txt').read_text(encoding="utf-8").replace("\n", " ").split()]
+print(ips)
+
 
 @bot.message_handler(commands='find') # реакция на /start
 def start(message):
-    #mesIp = message['text']
-    #mesIp = mesIp[7:]
-    request = api.host('193.138.89.71')
-    #print(request)
+    ip = socket.gethostbyname(ips[1]) # адрес из листа
+    request = api.host(ip)
     mes = ''
     for obj in request['ports'] + request['domains']:
         mes += str(obj) + ', '
