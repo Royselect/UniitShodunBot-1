@@ -1,5 +1,10 @@
 import telebot
+import atoma 
+import requests
+import socket
 from telebot import types
+from shodan import Shodan
+from pathlib import Path
 
 #тег бота: @UniitShodunBot
 bot = telebot.TeleBot('5877928916:AAHWzT4YLy9UNaOCQOtp1dTRH-7GK3wIneM') #token
@@ -23,9 +28,6 @@ chat_id = '-858519698'
 4. git
 """
 
-from shodan import Shodan
-import socket
-from pathlib import Path
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
 
@@ -50,47 +52,55 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    if ips(message.text):
-        ip = socket.gethostbyname(ips[message.text]) # адрес из листа
-        request = api.host(ip)
-        mes = ''
-        for obj in request['ports'] + request['domains']:
-            mes += str(obj) + ', '
-        mes = mes[0:-2]
-        bot.send_message(chat_id, mes )
-    else:
-        bot.send_message(chat_id, "Значение не найдено")
+        if message.text.isdigit():
+            m = 0
+            m = int(message.text)
+            if ((m >= 0 )& (m <= len(ips))):
+                print(m)
+                print(ips[m])
+                ip = socket.gethostbyname(ips[m]) # адрес из листа
+                print(ip)
+                request = api.host(ip)
+                print(request)
+                mes = ''
+                for obj in request['ports'] + request['domains']:
+                    mes += str(obj) + ', '
+                mes = mes[0:-2]
+                bot.send_message(chat_id, mes )
+            else:
+                bot.send_message(chat_id, "Значение нет")
+        else:
+            bot.send_message(chat_id, "Значение не то")
 
 
-@bot.message_handler(commands='find') # реакция на 
-def start(message):
-    ip = socket.gethostbyname(ips[1]) # адрес из листа
-    request = api.host(ip)
-    mes = ''
-    for obj in request['ports'] + request['domains']:
-        mes += str(obj) + ', '
-    mes = mes[0:-2]
-    bot.send_message(chat_id, mes )
+# @bot.message_handler(commands='find') # реакция на 
+# def start(message):
+#     ip = socket.gethostbyname(ips[1]) # адрес из листа
+#     request = api.host(ip)
+#     mes = ''
+#     for obj in request['ports'] + request['domains']:
+#         mes += str(obj) + ', '
+#     mes = mes[0:-2]
+#     bot.send_message(chat_id, mes )
 
-# exploit-db    Pavel and Aleksey
-import atoma, requests
+# exploit-db
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
 response = requests.get(url)
 feed = atoma.parse_rss_bytes(response.content)
 
-date1 = feed.pub_date.strftime('%d-%m-%Y')
-print ("Feed: " + feed.title)
-print ("Description: " + feed.description)
-print ("Link: " + feed.link)
-print ("Feed Update: " + date1)
+# date1 = feed.pub_date.strftime('%d-%m-%Y')
+# print ("Feed: " + feed.title)
+# print ("Description: " + feed.description)
+# print ("Link: " + feed.link)
+# print ("Feed Update: " + date1)
 
-for post in feed.items:
-    date2 = post.pub_date.strftime('%d-%m-%Y')
-    print ("Published Date: " + date2)
-    print ("Title: " + post.description)
-    print ("Description: " + post.title)
-    print ("Link: " + post.link)
+# for post in feed.items:
+#     date2 = post.pub_date.strftime('%d-%m-%Y')
+#     print ("Published Date: " + date2)
+#     print ("Title: " + post.description)
+#     print ("Description: " + post.title)
+#     print ("Link: " + post.link)
 
 @bot.message_handler(commands=['exploit'])
 def start(message):
