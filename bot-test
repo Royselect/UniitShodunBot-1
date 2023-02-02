@@ -83,6 +83,29 @@ def handle_text(message):
 #     mes = mes[0:-2]
 #     bot.send_message(chat_id, mes )
 
+#Abuseipdbd
+import requests
+import json
+
+url = 'https://api.abuseipdb.com/api/v2/check'
+
+querystring = {
+    'ipAddress': '5.255.255.60',
+    'maxAgeInDays': '365'
+}
+
+headers = {
+    'Accept': 'application/json',
+    'Key': 'bf5f99dad0962181e1fad775d25ab1ad08cbbc0bb12642052bece9ceba742b1cc19c1b417231b445'
+}
+
+response = requests.request(method='GET', url=url, headers=headers, params=querystring)
+
+decodedResponse = json.loads(response.text)
+print(json.dumps(decodedResponse, sort_keys=True, indent=4))
+
+
+
 # exploit-db
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
