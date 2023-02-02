@@ -2,6 +2,7 @@ import telebot
 import atoma 
 import requests
 import socket
+import json
 from telebot import types
 from shodan import Shodan
 from pathlib import Path
@@ -30,11 +31,9 @@ chat_id = '-858519698'
 
 api = Shodan('5IzE5XrF0qjDPPGevvuCRJ0AcpFCekri')
 
-
 # работа со списком
 file = open("ips.txt")
 ips = list([w for w in Path('ips.txt').read_text(encoding="utf-8").replace("\n", " ").split()])
-#print(ips)
 
 l = ''
 i = 0
@@ -45,10 +44,6 @@ for ip in ips:
 @bot.message_handler(commands=['list'])
 def start(message):
     bot.send_message(chat_id, l)
-    #приём числа
-
-
-
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -83,9 +78,8 @@ def handle_text(message):
 #     mes = mes[0:-2]
 #     bot.send_message(chat_id, mes )
 
+
 #Abuseipdbd
-import requests
-import json
 
 url = 'https://api.abuseipdb.com/api/v2/check'
 
