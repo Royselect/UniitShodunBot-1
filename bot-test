@@ -51,17 +51,17 @@ def handle_text(message):
             m = 0
             m = int(message.text)
             if ((m >= 0 )& (m <= len(ips))):
-                print(m)
-                print(ips[m])
                 ip = socket.gethostbyname(ips[m]) # адрес из листа
-                print(ip)
                 request = api.host(ip)
                 print(request)
                 mes = ''
-                for obj in request['ports'] + request['domains']:
-                    mes += str(obj) + ', '
-                mes = mes[0:-2]
-                bot.send_message(chat_id, mes )
+                if str(request['ports']) != str([80, 443]):
+                    for obj in request['ports']:
+                        mes += str(obj) + ', '
+                    mes = mes[0:-2]
+                else:
+                    mes += 'Порты норм'
+                bot.send_message(chat_id, mes)
             else:
                 bot.send_message(chat_id, "Значение нет")
         else:
