@@ -63,7 +63,7 @@ def handle_text(message):
                     mes += 'Порты норм'
                 bot.send_message(chat_id, mes)
             else:
-                bot.send_message(chat_id, "Значение нет")
+                bot.send_message(chat_id, "Значения нет")
         else:
             bot.send_message(chat_id, "Значение не то")
 
