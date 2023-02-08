@@ -82,7 +82,8 @@ def handle_text(message):
 #Abuseipdbd
 
 url = 'https://api.abuseipdb.com/api/v2/check'
-
+#5.141.28.183
+#45.93.16.32
 querystring = {
     'ipAddress': '45.93.16.32',
     'maxAgeInDays': '365'
@@ -96,10 +97,39 @@ headers = {
 response = requests.request(method='GET', url=url, headers=headers, params=querystring)
 
 decodedResponse = json.loads(response.text)
-print(json.dumps(decodedResponse, sort_keys=True, indent=4))
+#print(json.dumps(decodedResponse, sort_keys=True, indent=4))
+# pup = json.dumps(decodedResponse, sort_keys=True, indent=4)
+# pup = json.dumps(pup('data'), sort_keys=True, indent=4)
+smsWL = ''
+if str(decodedResponse['data']['isWhitelisted']) == 'true':
+    smsWL = 'Адрес также имеется в белом списке.'
+elif str(decodedResponse['data']['isWhitelisted']) == 'false': 
+    smsWL = 'Адреса нет в белом списке.'
+else:
+    smsWL = 'Поиск по белому списку не производился'
+bot.send_message(chat_id, 'Показатель доверия (100 - это плохо, 0 - все окей): ' + str(decodedResponse['data']['abuseConfidenceScore'])+ '\n' + 'Число репортов: ' + str(decodedResponse['data']['totalReports']) + '\n' + smsWL)
+
+#Проверка на наличие в черном списке
+urlBlackList = 'https://api.abuseipdb.com/api/v2/blacklist'
+
+querystringBL = {
+    'confidenceMinimum':'99'
+}
+blmes = ''
+response = requests.request(method='GET', url=urlBlackList, headers=headers, params=querystringBL)
+decodedResponseBL = json.loads(response.text)
+#print(json.dumps(decodedResponseBL, sort_keys=True, indent=4))
 
 
+for list in decodedResponseBL['data']:
+    if str(list['ipAddress']) == str(querystring['ipAddress']):
+        blmes += 'Найден в черном списке! ' + '\n'
+        blmes += str(list['abuseConfidenceScore']) + '\n' + str(list['countryCode']) + '\n' + str(list['ipAddress']) + '\n' + str(list['lastReportedAt'])
+        break
+    else:
+        blmes += 'В черном списке не найдено'
 
+bot.send_message(chat_id, blmes)
 # exploit-db
 feed_name = "Exploit-DB.com RSS Feed"
 url = "https://www.exploit-db.com/rss.xml"
